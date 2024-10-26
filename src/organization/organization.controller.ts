@@ -52,4 +52,14 @@ export class OrganizationController {
   ): Promise<{ message: string }> {
     return this.organizationService.deleteOrganization(organizationId);
   }
+
+
+  @Post(':organizationId/invite')
+
+  async inviteUser(
+    @Param('organizationId') organizationId: string,
+    @Body('email') userEmail: string
+  ): Promise<{ message: string }> {
+    return await this.organizationService.inviteUser(organizationId, userEmail);
+  }
 }
