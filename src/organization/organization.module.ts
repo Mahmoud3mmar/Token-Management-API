@@ -13,5 +13,6 @@ import { User, UserSchema } from '../user/entities/user.entity';
   ],
   controllers: [OrganizationController],
   providers: [OrganizationService],
+  exports:[OrganizationService]
 })
 export class OrganizationModule {}
