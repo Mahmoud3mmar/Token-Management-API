@@ -4,7 +4,7 @@ import { OrganizationController } from './organization.controller';
 import { Organization, organizationSchema } from './entities/organization.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from '../user/user.module';
-import { User, UserSchema } from 'src/user/entities/user.entity';
+import { User, UserSchema } from '../user/entities/user.entity';
 
 @Module({
   imports: [

@@ -19,9 +19,8 @@ import { JwtService } from '@nestjs/jwt';
 import { SignUpAuthDto } from './dto/signup.auth.dto';
 import { LoginAuthDto } from './dto/login.auth.dto';
 
-import { MailService } from 'src/global services/Email.Service';
-import { AccessLevel } from 'src/user/common utils/AccessLevel.enum';
-import { TokenBlacklistService } from 'src/token-blacklist/token-blacklist.service';
+import { MailService } from '../global services/Email.Service';
+import { TokenBlacklistService } from '../token-blacklist/token-blacklist.service';
 @Injectable()
 export class AuthService {
   constructor(

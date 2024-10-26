@@ -6,8 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MailService } from '../global services/Email.Service';
-import { TokenBlacklistService } from 'src/token-blacklist/token-blacklist.service'; 
-import { TokenBlacklistModule } from 'src/token-blacklist/token-blacklist.module';
+import { TokenBlacklistModule } from '../token-blacklist/token-blacklist.module';
 import { AccessTokenStrategy } from './accessToken.strategy';
 import { RefreshTokenStrategy } from './refreshToken.strategy';
 
