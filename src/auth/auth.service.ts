@@ -21,6 +21,7 @@ import { LoginAuthDto } from './dto/login.auth.dto';
 
 import { MailService } from 'src/global services/Email.Service';
 import { AccessLevel } from 'src/user/common utils/AccessLevel.enum';
+import { TokenBlacklistService } from 'src/token-blacklist/token-blacklist.service';
 @Injectable()
 export class AuthService {
   constructor(
@@ -28,6 +29,8 @@ export class AuthService {
 
     private readonly jwtService: JwtService,
     private readonly mailService: MailService,
+    private readonly TokenBlacklistService: TokenBlacklistService, // Inject TokenBlacklistService
+
     ) {}
 
   async signUp(signUpAuthDto: SignUpAuthDto): Promise<{ message: string }> {
@@ -172,4 +175,47 @@ export class AuthService {
     // Update the user's refresh token in the database
     await this.userModel.findByIdAndUpdate(userId, { refreshToken });
   }
+
+
+
+  
+  async refreshToken(
+    refreshToken: string,
+  ): Promise<{ message: string; access_token: string; refresh_token: string }> {
+    try {
+      const decoded = this.jwtService.verify(refreshToken, {
+        secret: process.env.JWT_REFRESH_SECRET,
+      });
+      const userId = decoded.sub;
+      // Check if the refresh token is in a blacklist
+      const isTokenBlacklisted = await this.TokenBlacklistService.isTokenBlacklisted(refreshToken);
+      if (isTokenBlacklisted) {
+        throw new UnauthorizedException('Refresh token has been invalidated');
+      }
+  
+      // Generate new tokens
+      const newAccessToken = this.jwtService.sign(
+        { userId },
+        { secret: process.env.JWT_ACCESS_SECRET, expiresIn: '5h' },
+      );
+      const newRefreshToken = this.jwtService.sign(
+        { userId },
+        { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '7d' },
+      );
+  
+      // Update the user's record with the new refresh token in the database
+      await this.userModel.findByIdAndUpdate(userId, {
+        refreshToken: newRefreshToken,
+      });
+  
+      return {
+        message: 'Tokens refreshed successfully',
+        access_token: newAccessToken,
+        refresh_token: newRefreshToken,
+      };
+    } catch (error) {
+      throw new UnauthorizedException('Invalid or expired refresh token');
+    }
+  }
+  
 }
