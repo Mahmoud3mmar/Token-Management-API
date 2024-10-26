@@ -5,6 +5,6 @@ export class CreateOrganizationDto {
   @IsNotEmpty()
   name: string;
 
-  @IsEmail()
+  @IsNotEmpty() 
   description: string;
 }
