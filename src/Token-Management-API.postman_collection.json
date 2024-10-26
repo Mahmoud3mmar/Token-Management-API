@@ -1,0 +1,316 @@
+{
+	"info": {
+		"_postman_id": "4710c133-2562-4486-8915-be43d2d22460",
+		"name": "Token-Management-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31110005",
+		"_collection_link": "https://easy-book-team.postman.co/workspace/5c3c1a7d-f96a-4f6d-856f-8592627453b8/collection/31110005-4710c133-2562-4486-8915-be43d2d22460?action=share&source=collection_link&creator=31110005"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Mahmoud Ammar\",\r\n    \"email\":\"super5@gmail.com\",\r\n    \"password\":\"easypw\",\r\n    \"confirmPassword\":\"easypw\"\r\n\r\n}    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://token-management-api.vercel.app/auth/signup",
+							"protocol": "https",
+							"host": [
+								"token-management-api",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"super2@gmail.com\",\r\n    \"password\":\"easypw\"\r\n   \r\n}    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://token-management-api.vercel.app/auth/signin",
+							"protocol": "https",
+							"host": [
+								"token-management-api",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RefreshToken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://token-management-api.vercel.app/auth/refresh/token?refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzFjZTM5Y2NiZTdhMmZhYjI4MGUyMWUiLCJlbWFpbCI6InN1cGVyMkBnbWFpbC5jb20iLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzI5OTU5NzMyLCJleHAiOjE3MzA1NjQ1MzJ9.vkuB_V0Fr526RS_X-pHdSVwYkmnXXpg9qEGY-lK01Y8",
+							"protocol": "https",
+							"host": [
+								"token-management-api",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"auth",
+								"refresh",
+								"token"
+							],
+							"query": [
+								{
+									"key": "refreshToken",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzFjZTM5Y2NiZTdhMmZhYjI4MGUyMWUiLCJlbWFpbCI6InN1cGVyMkBnbWFpbC5jb20iLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzI5OTU5NzMyLCJleHAiOjE3MzA1NjQ1MzJ9.vkuB_V0Fr526RS_X-pHdSVwYkmnXXpg9qEGY-lK01Y8"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Organization",
+			"item": [
+				{
+					"name": "CreateOrganization",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzFjZTM5Y2NiZTdhMmZhYjI4MGUyMWUiLCJpYXQiOjE3Mjk5NTk3NTQsImV4cCI6MTcyOTk3Nzc1NH0.0N6Us-oqg30ytVlLyDvc0LsQl1yVJqVgKf4QaOz1Ce8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"name\": \" main org 2\",\r\n\r\n  \"description\": \" main org description3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://token-management-api.vercel.app/organization",
+							"protocol": "https",
+							"host": [
+								"token-management-api",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"organization"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetSingleOrganization",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzFjZTM5Y2NiZTdhMmZhYjI4MGUyMWUiLCJpYXQiOjE3Mjk5NTk3NTQsImV4cCI6MTcyOTk3Nzc1NH0.0N6Us-oqg30ytVlLyDvc0LsQl1yVJqVgKf4QaOz1Ce8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://token-management-api.vercel.app/organization/671d05cf3b239dcbefe9abe8",
+							"protocol": "https",
+							"host": [
+								"token-management-api",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"organization",
+								"671d05cf3b239dcbefe9abe8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOrganizationsPaginated",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzFjZTM5Y2NiZTdhMmZhYjI4MGUyMWUiLCJpYXQiOjE3Mjk5NTk3NTQsImV4cCI6MTcyOTk3Nzc1NH0.0N6Us-oqg30ytVlLyDvc0LsQl1yVJqVgKf4QaOz1Ce8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://token-management-api.vercel.app/organization?page=1&limit=10",
+							"protocol": "https",
+							"host": [
+								"token-management-api",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"organization"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InviteUsersToOrganizations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzFjZTM5Y2NiZTdhMmZhYjI4MGUyMWUiLCJpYXQiOjE3Mjk5NTk3NTQsImV4cCI6MTcyOTk3Nzc1NH0.0N6Us-oqg30ytVlLyDvc0LsQl1yVJqVgKf4QaOz1Ce8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"super4@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://token-management-api.vercel.app/organization/671d05cf3b239dcbefe9abe8/invite",
+							"protocol": "https",
+							"host": [
+								"token-management-api",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"organization",
+								"671d05cf3b239dcbefe9abe8",
+								"invite"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Redis",
+			"item": [
+				{
+					"name": "RevokeRefreshToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzFjZTM5Y2NiZTdhMmZhYjI4MGUyMWUiLCJpYXQiOjE3Mjk5NTk3NTQsImV4cCI6MTcyOTk3Nzc1NH0.0N6Us-oqg30ytVlLyDvc0LsQl1yVJqVgKf4QaOz1Ce8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refresh_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzFjZTM5Y2NiZTdhMmZhYjI4MGUyMWUiLCJlbWFpbCI6InN1cGVyMkBnbWFpbC5jb20iLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzI5OTQ4OTM5LCJleHAiOjE3MzA1NTM3Mzl9.GidF4YTF6QV3NGRTlF0B7hyZxFAe7J8McekGXXbEoXA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://token-management-api.vercel.app/redis/revoke/refresh/token",
+							"protocol": "https",
+							"host": [
+								"token-management-api",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"redis",
+								"revoke",
+								"refresh",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
