@@ -12,6 +12,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { SignUpAuthDto } from './dto/signup.auth.dto';
+import { LoginAuthDto } from './dto/login.auth.dto';
 
 
 @ApiTags('Authentication') // Swagger tag to group endpoints
@@ -26,7 +27,11 @@ export class AuthController {
 
 
 
+  @Post('signin')
 
+  async signIn(@Body() loginAuthDto: LoginAuthDto) {
+    return this.authService.signIn(loginAuthDto);
+  }
 
 
 }
