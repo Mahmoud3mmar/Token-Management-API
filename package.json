@@ -33,6 +33,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
+    "ioredis": "^5.4.1",
     "mongodb": "^6.10.0",
     "mongoose": "^8.7.2",
     "moongose": "^1.0.0",
