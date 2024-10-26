@@ -26,5 +26,12 @@ export class OrganizationController {
     return await this.organizationService.getOrganizationById(organizationId);
   }
 
+  @Get()
+
+  async getOrganizations(
+    @Query() paginationDto: GetOrganizationsPaginatedDto
+  ): Promise<any> {
+    return this.organizationService.findAllOrganizations(paginationDto);
+  }
 
 }
