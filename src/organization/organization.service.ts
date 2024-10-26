@@ -6,7 +6,8 @@ import { Model } from 'mongoose';
 import { UserService } from '../user/user.service';
 import { GetOrganizationDto } from './dto/get-organization.dto';
 import { GetOrganizationsPaginatedDto } from './dto/get-all-organizations-paginated.dto';
-import { OrganizationResponse } from './interfaces/organization.interface';
+import { OrganizationResponse, UpdatedOrganizationResponse } from './interfaces/organization.interface';
+import { UpdateOrganizationDto } from './dto/update-organization.dto';
 
 
 @Injectable()
@@ -98,7 +99,30 @@ export class OrganizationService {
       limit,
     };
   }
-  
+  async updateOrganization(
+    organizationId: string,
+    updateOrganizationDto: UpdateOrganizationDto
+  ): Promise<UpdatedOrganizationResponse> {
+    // Find the organization by ID
+    const organization = await this.organizationModel.findById(organizationId);
+    
+    if (!organization) {
+      throw new NotFoundException('Organization not found');
+    }
+
+    // Update the organization fields
+    organization.name = updateOrganizationDto.name || organization.name;
+    organization.description = updateOrganizationDto.description || organization.description;
+
+    // Save the updated organization
+    await organization.save();
+
+    return {
+      organization_id: organization._id.toString(), // Convert ObjectId to string
+      name: organization.name,
+      description: organization.description,
+    };
+  }
 }
 
 
