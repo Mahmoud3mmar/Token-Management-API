@@ -5,6 +5,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserService } from '../user/user.service';
 import { GetOrganizationDto } from './dto/get-organization.dto';
+import { GetOrganizationsPaginatedDto } from './dto/get-all-organizations-paginated.dto';
+import { OrganizationResponse } from './interfaces/organization.interface';
 
 
 @Injectable()
@@ -57,6 +59,45 @@ export class OrganizationService {
     };
   }
   
+  async findAllOrganizations(
+    paginationDto: GetOrganizationsPaginatedDto
+  ): Promise<OrganizationResponse> {
+
+    const { page, limit, sortBy, order } = paginationDto;
+
+    // Calculate the skip value for pagination
+    const skip = (page - 1) * limit;
+
+    // Set sorting direction
+    const sortDirection = order === 'asc' ? 1 : -1;
+
+    // Query the database
+    const organizations = await this.organizationModel
+      .find()
+      .populate('organization_members', 'name email access_level') // Populate members
+      .sort({ [sortBy]: sortDirection }) // Sort by the specified field (default is createdAt)
+      .skip(skip) // Apply pagination
+      .limit(limit) // Set limit
+      .exec();
+
+    const totalOrganizations = await this.organizationModel.countDocuments();
+
+    return {
+      organizations: organizations.map(org => ({
+        organization_id: org._id.toString(), // Convert ObjectId to string
+        name: org.name,
+        description: org.description,
+        organization_members: org.organization_members.map(member => ({
+          name: member.name,
+          email: member.email,
+          access_level: member.access_level,
+        })),
+      })),
+      total: totalOrganizations,
+      page,
+      limit,
+    };
+  }
   
 }
 
