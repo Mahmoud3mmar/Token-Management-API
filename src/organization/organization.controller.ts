@@ -44,4 +44,12 @@ export class OrganizationController {
   ): Promise<UpdatedOrganizationResponse> {
     return this.organizationService.updateOrganization(organizationId, updateOrganizationDto);
   }
+
+  @Delete(':organizationId')
+
+  async deleteOrganization(
+    @Param('organizationId') organizationId: string
+  ): Promise<{ message: string }> {
+    return this.organizationService.deleteOrganization(organizationId);
+  }
 }
