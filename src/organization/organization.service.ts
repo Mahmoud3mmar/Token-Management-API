@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { Organization } from './entities/organization.entity';
 import { InjectModel } from '@nestjs/mongoose';
@@ -8,13 +8,15 @@ import { GetOrganizationDto } from './dto/get-organization.dto';
 import { GetOrganizationsPaginatedDto } from './dto/get-all-organizations-paginated.dto';
 import { OrganizationResponse, UpdatedOrganizationResponse } from './interfaces/organization.interface';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
+import { MailService } from '../global services/Email.Service';
 
 
 @Injectable()
 export class OrganizationService {
   constructor(
     @InjectModel(Organization.name) private organizationModel: Model<Organization>,
-    private userService: UserService // Inject UserService
+    private userService: UserService, // Inject UserService
+    private readonly mailService: MailService,
 
   ) {}
   async createOrganization(createOrgDto: CreateOrganizationDto): Promise<Organization> {
@@ -143,9 +145,7 @@ export class OrganizationService {
       throw new NotFoundException('Organization not found');
     }
   
-    // Log the fetched organization to inspect its fields
-    console.log('Fetched organization:', organization);
-  
+      
     // Find the user by email
     const user = await this.userService.findByEmail(userEmail);
     if (!user) {
@@ -164,6 +164,8 @@ export class OrganizationService {
     if (!organization.name || !organization.description) {
       throw new BadRequestException('Organization name and description are required.');
     }
+    await this.sendInvitationEmail(user.email);
+
       await organization.save();
     } catch (error) {
       throw new BadRequestException('Failed to save organization: ' + error.message);
@@ -171,7 +173,32 @@ export class OrganizationService {
   
     // Here you would implement your invitation logic, e.g., sending an email
     // For demonstration purposes, we'll just return a success message.
-    return { message: `Invitation sent to ${userEmail} successfully and added to the organization.` };
+    return { message: `Invitation mail sent to ${userEmail} successfully and added to the organization.` };
+  }
+
+
+
+  async sendInvitationEmail(
+    email: string,
+
+  ): Promise<void> {
+   
+
+    const mailOptions = {
+      from: process.env.NodeMailer_USER,
+      to: email,
+      subject: 'Invitation',
+      text: `You have been invited for an organization`,
+      
+    };
+
+    try {
+      await this.mailService.transporter.sendMail(mailOptions); 
+    } catch (error) {
+      console.error('Error sending email:', error);
+
+      throw new InternalServerErrorException('Failed to send OTP email');
+    }
   }
 }
 
