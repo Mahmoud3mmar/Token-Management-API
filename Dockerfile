@@ -1,21 +1,23 @@
-# Use a Node.js base image (version 18)
+# Use Node.js image
 FROM node:18
 
-# Set the working directory
-WORKDIR /app
+# Create app directory
+WORKDIR /usr/src/app
 
-# Copy package.json and install dependencies
+# Copy package.json and package-lock.json to the container
 COPY package*.json ./
+
+# Install app dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Bundle app source
 COPY . .
 
-# Build the NestJS application
+# Build the app
 RUN npm run build
 
-# Expose the application port (default 8080)
+# Expose the port the app runs on
 EXPOSE 8080
 
-# Start the application
+# Run the application
 CMD ["npm", "run", "start:prod"]

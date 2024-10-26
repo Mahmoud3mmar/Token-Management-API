@@ -1,21 +1,38 @@
+version: '3.8'  # Updated to the latest recommended version
+
 services:
   app:
+    image: token-management-api
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '8080:8080'  # Adjust to your application's port
     depends_on:
       - mongo
+      - redis
     environment:
-      MONGO_URI: mongodb://mongo:27017/your_database_name
+      - MONGO_URI=MONGO_URI
 
+      - REDIS_HOST=REDIS_HOST
+      - REDIS_PORT=REDIS_PORT
+      - REDIS_PASSWORD=REDIS_PASSWORD  
+
+    volumes:
+      - .:/app  # Mount your application code for development (optional)
+  
   mongo:
     image: mongo:latest
     ports:
-      - "27017:27017"
+      - '27017:27017'
     volumes:
-      - mongo-data:/data/db
-
+      - mongo_data:/data/db  # Persist data
+  
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    command: ["redis-server", "--appendonly", "yes"]  # Optional persistence
+  
 volumes:
-  mongo-data:
+  mongo_data: 
