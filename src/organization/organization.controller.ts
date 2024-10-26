@@ -34,4 +34,14 @@ export class OrganizationController {
     return this.organizationService.findAllOrganizations(paginationDto);
   }
 
+
+  
+  @Put(':organizationId')
+
+  async updateOrganization(
+    @Param('organizationId') organizationId: string,
+    @Body() updateOrganizationDto: UpdateOrganizationDto
+  ): Promise<UpdatedOrganizationResponse> {
+    return this.organizationService.updateOrganization(organizationId, updateOrganizationDto);
+  }
 }
