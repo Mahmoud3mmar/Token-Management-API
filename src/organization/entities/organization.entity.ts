@@ -11,7 +11,7 @@ export class Organization extends Document {
 
 
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true})
   description: string;
 
 
