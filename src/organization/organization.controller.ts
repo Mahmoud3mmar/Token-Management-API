@@ -20,6 +20,11 @@ export class OrganizationController {
   createOrganization(@Body() createOrganizationDto: CreateOrganizationDto): Promise<Organization> {
     return this.organizationService.createOrganization(createOrganizationDto);
   }
+  @Get(':organizationId')
+
+  async getOrganization(@Param('organizationId') organizationId: string): Promise<GetOrganizationDto> {
+    return await this.organizationService.getOrganizationById(organizationId);
+  }
 
 
 }
