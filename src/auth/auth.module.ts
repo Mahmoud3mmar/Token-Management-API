@@ -8,6 +8,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MailService } from '../global services/Email.Service';
 import { TokenBlacklistService } from 'src/token-blacklist/token-blacklist.service';
 import { TokenBlacklistModule } from 'src/token-blacklist/token-blacklist.module';
+import { AccessTokenStrategy } from './accessToken.strategy';
 
 
 @Module({
@@ -25,6 +26,7 @@ import { TokenBlacklistModule } from 'src/token-blacklist/token-blacklist.module
     AuthService,
     MailService,
     JwtService,
+    AccessTokenStrategy,
   ],
   controllers: [AuthController],
   exports:[AuthService]
