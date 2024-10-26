@@ -32,56 +32,51 @@ export class AuthService {
 
     ) {}
 
-  async signUp(signUpAuthDto: SignUpAuthDto): Promise<{ message: string }> {
-    const { name, email, password, confirmPassword } = signUpAuthDto;
-
-    // Check if passwords match
-    if (password !== confirmPassword) {
-      throw new BadRequestException(
-        'Password and confirm password do not match',
-      );
-    }
-
-    try {
-      // Check for existing user
-      const existingUser = await this.userModel.findOne({ email });
-
-      if (existingUser) {
-        throw new ConflictException('User with this email already exists.');
+    async signUp(signUpAuthDto: SignUpAuthDto): Promise<{ message: string }> {
+      const { name, email, password, confirmPassword } = signUpAuthDto;
+  
+      // Check if passwords match
+      if (password !== confirmPassword) {
+          throw new BadRequestException('Password and confirm password do not match');
       }
-
-      // Hash the password
-      // const salt = await bcrypt.genSalt();
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      // Create new user
-      const user = new this.userModel({
-        name,
-        email,
-        password: hashedPassword,
-      });
-
-      // Save user to database
-      await user.save();
-
-      return {
-        message: 'Signup successful!',
-      };
-    } catch (error) {
-      // Log the error to help diagnose the issue
-      console.error('Error during signup:', error);
-
-      if (
-        error instanceof ConflictException ||
-        error instanceof BadRequestException
-      ) {
-        throw error; // Propagate known exceptions
+  
+      try {
+          // Check for existing user
+          const existingUser = await this.userModel.findOne({ email });
+  
+          if (existingUser) {
+              throw new ConflictException('Email already in use.'); // Ensure this matches your test
+          }
+  
+          // Hash the password
+          const hashedPassword = await bcrypt.hash(password, 10);
+  
+          // Create new user
+          const user = new this.userModel({
+              name,
+              email,
+              password: hashedPassword,
+          });
+  
+          // Save user to database
+          await user.save();
+  
+          return {
+              message: 'User created successfully', // Match your test expectations
+          };
+      } catch (error) {
+          // Log the error
+          console.error('Error during signup:', error.message, error.stack);
+  
+          if (error instanceof ConflictException || error instanceof BadRequestException) {
+              throw error; // Propagate known exceptions
+          }
+  
+          // Handle any unexpected errors
+          throw new InternalServerErrorException('Failed to sign up user', error);
       }
-
-      // Handle any unexpected errors
-      throw new InternalServerErrorException('Failed to sign up user', error);
-    }
   }
+  
   async signIn(
     loginAuthDto: LoginAuthDto,
   ): Promise<{ access_token: string; refresh_token: string; message: string }> {
