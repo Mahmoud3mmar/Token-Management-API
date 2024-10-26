@@ -24,7 +24,9 @@ async function bootstrap() {
       "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js",
       "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js",
     ],
-  });
-  await app.listen(8080);
+  });  
+  const port = process.env.PORT; // Use PORT from env variables or default to 8080
+
+  await app.listen(port);
 }
 bootstrap();
