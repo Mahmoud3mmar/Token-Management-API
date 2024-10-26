@@ -10,23 +10,27 @@ import { GetOrganizationDto } from '../src/organization/dto/get-organization.dto
 import { GetOrganizationsPaginatedDto } from 'src/organization/dto/get-all-organizations-paginated.dto';
 import { OrganizationResponse, UpdatedOrganizationResponse } from '../src/organization/interfaces/organization.interface';
 import { UpdateOrganizationDto } from '../src/organization/dto/update-organization.dto';
+import { MailService } from '../src/global services/Email.Service';
+
+const mockUserService = {
+  // Define mock methods for UserService if necessary
+};
+
+const mockMailService = {
+  // Define mock methods for MailService if necessary
+};
 
 describe('OrganizationController', () => {
   let organizationController: OrganizationController;
   let organizationService: OrganizationService;
-  
-  const mockUserService = {
-    // Define mock methods if necessary
-  };
-  
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [OrganizationController],
-      
       providers: [
         OrganizationService,
         { provide: UserService, useValue: mockUserService }, // Mock UserService
+        { provide: MailService, useValue: mockMailService }, // Mock MailService
         {
           provide: getModelToken(Organization.name),
           useValue: {}, // Mock the Organization model
