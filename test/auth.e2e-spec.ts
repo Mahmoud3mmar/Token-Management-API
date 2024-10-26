@@ -4,7 +4,7 @@ import { AuthController } from '../src/auth/auth.controller';
 import { AuthService } from '../src/auth/auth.service';
 import { SignUpAuthDto } from '../src/auth/dto/signup.auth.dto';
 import { AccessLevel } from '../src/user/common utils/AccessLevel.enum';
-import { LoginAuthDto } from '../src/auth/dto/login.auth.dto';
+import { LoginAuthDto } from 'src/auth/dto/login.auth.dto';
 
 describe('AuthController', () => {
   let authController: AuthController;
