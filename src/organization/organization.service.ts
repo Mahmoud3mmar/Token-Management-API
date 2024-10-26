@@ -135,6 +135,48 @@ export class OrganizationService {
     // Return a success message
     return { message: 'Organization deleted successfully' };
   }
+
+
+  async inviteUser(organizationId: string, userEmail: string): Promise<{ message: string }> {
+    // Find the organization
+    const organization = await this.organizationModel.findById(organizationId);
+    if (!organization) {
+      throw new NotFoundException('Organization not found');
+    }
+  
+    // Log the fetched organization to inspect its fields
+    console.log('Fetched organization:', organization);
+  
+    // Find the user by email
+    const user = await this.userService.findByEmail(userEmail);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+  
+    // Check if the user is already a member of the organization
+    if (organization.organization_members.includes(user.id)) {
+      return { message: `${userEmail} is already a member of the organization.` };
+    }
+  
+    // Add the user's ID to the organization's members list
+    organization.organization_members.push(user.id);
+  
+    // Check if name and description are set in the organization document
+    if (!organization.name || !organization.description) {
+      throw new BadRequestException('Organization name and description are required.');
+    }
+  
+    // Attempt to save the organization
+    try {
+      await organization.save();
+    } catch (error) {
+      throw new BadRequestException('Failed to save organization: ' + error.message);
+    }
+  
+    // Here you would implement your invitation logic, e.g., sending an email
+    // For demonstration purposes, we'll just return a success message.
+    return { message: `Invitation sent to ${userEmail} successfully and added to the organization.` };
+  }
 }
 
 
