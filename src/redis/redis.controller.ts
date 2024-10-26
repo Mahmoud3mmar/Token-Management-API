@@ -3,12 +3,15 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards ,Request,
 import { RedisService } from './redis.service';
 
 import { RevokeRefreshTokenDto } from './dto/revoke-refresh-token.dto';
+import { AccessLevelsGuard } from '../auth/guards/role.guards';
+import { AccessTokenGuard } from '../auth/guards/accessToken.guard';
 
 @Controller('redis')
 export class RedisController {
   constructor(private readonly redisService: RedisService) {}
 
-  @Post('revoke')
+  @Post('revoke/refresh/token')
+  @UseGuards(AccessTokenGuard,AccessLevelsGuard)
   async revokeRefreshToken(
     @Body() revokeTokenDto: RevokeRefreshTokenDto,
     @Request() req: any, // You can specify a more specific type based on your setup
