@@ -20,11 +20,7 @@ export class OrganizationService {
   async createOrganization(createOrgDto: CreateOrganizationDto): Promise<Organization> {
     const { name, description } = createOrgDto;
   
-    // Check if name and description are provided
-    if (!name || !description) {
-      throw new BadRequestException('Organization name and description are required.');
-    }
-  
+   
     const newOrganization = new this.organizationModel({
       name,
       description,
@@ -138,7 +134,10 @@ export class OrganizationService {
 
 
   async inviteUser(organizationId: string, userEmail: string): Promise<{ message: string }> {
-    // Find the organization
+  
+  
+    try {
+        // Find the organization
     const organization = await this.organizationModel.findById(organizationId);
     if (!organization) {
       throw new NotFoundException('Organization not found');
@@ -165,9 +164,6 @@ export class OrganizationService {
     if (!organization.name || !organization.description) {
       throw new BadRequestException('Organization name and description are required.');
     }
-  
-    // Attempt to save the organization
-    try {
       await organization.save();
     } catch (error) {
       throw new BadRequestException('Failed to save organization: ' + error.message);
