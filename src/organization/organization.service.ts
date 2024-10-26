@@ -123,6 +123,18 @@ export class OrganizationService {
       description: organization.description,
     };
   }
+
+  async deleteOrganization(organizationId: string): Promise<{ message: string }> {
+    // Find the organization by ID and delete it
+    const organization = await this.organizationModel.findByIdAndDelete(organizationId);
+    
+    if (!organization) {
+      throw new NotFoundException('Organization not found');
+    }
+
+    // Return a success message
+    return { message: 'Organization deleted successfully' };
+  }
 }
 
 
