@@ -20,5 +20,14 @@ export class TokenBlacklistService {
     );
   }
 
-
+  async isTokenBlacklisted(token: string): Promise<boolean> {
+    const blacklistedToken = await this.blacklistedTokenModel.findOne({ token });
+    if (blacklistedToken) {
+      if (blacklistedToken.expiresAt > new Date()) {
+        return true; // Token is still valid
+      }
+      await this.blacklistedTokenModel.deleteOne({ token }); // Remove expired token
+    }
+    return false;
+  }
 }
