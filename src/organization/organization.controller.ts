@@ -16,18 +16,19 @@ export class OrganizationController {
   constructor(private readonly organizationService: OrganizationService) {}
 
   @Post()
-
+  @UseGuards(AccessTokenGuard,AccessLevelsGuard)
   createOrganization(@Body() createOrganizationDto: CreateOrganizationDto): Promise<Organization> {
     return this.organizationService.createOrganization(createOrganizationDto);
   }
-  @Get(':organizationId')
 
+  @Get(':organizationId')
+  @UseGuards(AccessTokenGuard,AccessLevelsGuard)
   async getOrganization(@Param('organizationId') organizationId: string): Promise<GetOrganizationDto> {
     return await this.organizationService.getOrganizationById(organizationId);
   }
 
   @Get()
-
+  @UseGuards(AccessTokenGuard,AccessLevelsGuard)
   async getOrganizations(
     @Query() paginationDto: GetOrganizationsPaginatedDto
   ): Promise<any> {
@@ -37,7 +38,7 @@ export class OrganizationController {
 
   
   @Put(':organizationId')
-
+  @UseGuards(AccessTokenGuard,AccessLevelsGuard)
   async updateOrganization(
     @Param('organizationId') organizationId: string,
     @Body() updateOrganizationDto: UpdateOrganizationDto
@@ -46,7 +47,7 @@ export class OrganizationController {
   }
 
   @Delete(':organizationId')
-
+  @UseGuards(AccessTokenGuard,AccessLevelsGuard)
   async deleteOrganization(
     @Param('organizationId') organizationId: string
   ): Promise<{ message: string }> {
@@ -55,7 +56,7 @@ export class OrganizationController {
 
 
   @Post(':organizationId/invite')
-
+  @UseGuards(AccessTokenGuard,AccessLevelsGuard)
   async inviteUser(
     @Param('organizationId') organizationId: string,
     @Body('email') userEmail: string
